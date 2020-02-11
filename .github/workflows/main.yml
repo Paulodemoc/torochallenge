@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - master
+    - release/*
+
+jobs:
+  build_torochallenge-frontend:
+    runs-on: ubuntu-16.04
+    steps:
+      - uses: actions/checkout@v1
+      - name: Find and Replace Token
+        uses: jacobtomlinson/gha-find-replace@0.1.1
+        with:
+          include: "src/StocksBackendServer/appsettings.json"
+          find: "_JWT_TOKEN_SECRET_"
+          replace: "$JWT_TOKEN_SECRET"
+      - name: Find and Replace Connection String
+        uses: jacobtomlinson/gha-find-replace@0.1.1
+        with:
+          include: "src/StocksBackendServer/appsettings.json"
+          find: "_MONGODB_CONNSTR_"
+          replace: "$MONGODB_CONNSTR"
+      - name: Find and Replace Stocks WS Url
+        uses: jacobtomlinson/gha-find-replace@0.1.1
+        with:
+          include: "src/StocksBackendServer/appsettings.json"
+          find: "_STOCKS_WS_URL_"
+          replace: "$STOCKS_WS_URL"
+      - name: Build and deploy the Docker image
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          APP_NAME: ${{ 'torochallenge-frontend' }}
+        run: |
+          docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+          docker build .
+          heroku container:push web -a $APP_NAME
+          heroku container:release web -a $APP_NAME
