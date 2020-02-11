@@ -16,19 +16,19 @@ jobs:
         with:
           include: "./src/StocksBackendServer/appsettings.json"
           find: "_JWT_TOKEN_SECRET_"
-          replace: "secrets.JWT_TOKEN_SECRET"
+          replace: ${{ secrets.JWT_TOKEN_SECRET }}
       - name: Find and Replace Connection String
         uses: jacobtomlinson/gha-find-replace@0.1.1
         with:
           include: "./src/StocksBackendServer/appsettings.json"
           find: "_MONGODB_CONNSTR_"
-          replace: "secrets.MONGODB_CONNSTR"
+          replace: ${{ secrets.MONGODB_CONNSTR }}
       - name: Find and Replace Stocks WS Url
         uses: jacobtomlinson/gha-find-replace@0.1.1
         with:
           include: "./src/StocksBackendServer/appsettings.json"
           find: "_STOCKS_WS_URL_"
-          replace: "secrets.STOCKS_WS_URL"
+          replace: ${{ secrets.STOCKS_WS_URL }}
       - name: Build and deploy the Docker image
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
