@@ -34,6 +34,7 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           APP_NAME: ${{ 'torochallenge-backend' }}
         run: |
+          cat ./src/StocksBackendServer/appsettings.json
           docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
           docker build .
           heroku container:push web -a $APP_NAME
