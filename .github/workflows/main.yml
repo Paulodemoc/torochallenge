@@ -11,30 +11,26 @@ jobs:
     runs-on: ubuntu-16.04
     steps:
       - uses: actions/checkout@v1
-      - name: Find and Replace Token
-        uses: jacobtomlinson/gha-find-replace@0.1.1
+      - name: Replace Token
+        uses: datamonsters/replace-action@v2
         with:
-          include: "./src/StocksBackendServer/appsettings.json"
-          find: "_JWT_TOKEN_SECRET_"
-          replace: ${{ secrets.JWT_TOKEN_SECRET }}
-      - name: Find and Replace Connection String
-        uses: jacobtomlinson/gha-find-replace@0.1.1
+          files: ./src/StocksBackendServer/appsettings.json
+          replacements: '_JWT_TOKEN_SECRET_=${{ secrets.JWT_TOKEN_SECRET }}'
+      - name: Replace Connection String
+        uses: datamonsters/replace-action@v2
         with:
-          include: "./src/StocksBackendServer/appsettings.json"
-          find: "_MONGODB_CONNSTR_"
-          replace: ${{ secrets.MONGODB_CONNSTR }}
-      - name: Find and Replace Stocks WS Url
-        uses: jacobtomlinson/gha-find-replace@0.1.1
+          files: ./src/StocksBackendServer/appsettings.json
+          replacements: '_MONGODB_CONNSTR_=${{ secrets.MONGODB_CONNSTR }}'
+      - name: Replace Stocks WS Url
+        uses: datamonsters/replace-action@v2
         with:
-          include: "./src/StocksBackendServer/appsettings.json"
-          find: "_STOCKS_WS_URL_"
-          replace: ${{ secrets.STOCKS_WS_URL }}
+          files: ./src/StocksBackendServer/appsettings.json
+          replacements: '_STOCKS_WS_URL_=${{ secrets.STOCKS_WS_URL }}'
       - name: Build and deploy the Docker image
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           APP_NAME: ${{ 'torochallenge-backend' }}
         run: |
-          cat ./src/StocksBackendServer/appsettings.json
           docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
           docker build .
           heroku container:push web -a $APP_NAME
