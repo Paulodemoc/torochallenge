@@ -14,8 +14,8 @@ namespace StocksBackend
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>()
-                        .UseUrls("http://+:4000");
+                    webBuilder.UseStartup<Startup>();
+                        //.UseUrls("http://+:4000");
                 });
     }
 }
