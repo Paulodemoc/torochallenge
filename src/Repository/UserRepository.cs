@@ -17,7 +17,9 @@ namespace Repository
 
         public UserRepository(IDatabaseManager settings)
         {
-            var client = new MongoClient(settings.ConnectionString);
+            MongoClientSettings mongoSettings = MongoClientSettings.FromConnectionString(settings.ConnectionString);
+            mongoSettings.RetryWrites = false;
+            var client = new MongoClient(mongoSettings);
             var database = client.GetDatabase(settings.DatabaseName);
 
             _users = database.GetCollection<User>(this.CollectionName);

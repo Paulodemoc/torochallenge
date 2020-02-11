@@ -15,7 +15,9 @@ namespace Repository
 
         public StockRepository(IDatabaseManager settings)
         {
-            var client = new MongoClient(settings.ConnectionString);
+            MongoClientSettings mongoSettings = MongoClientSettings.FromConnectionString(settings.ConnectionString);
+            mongoSettings.RetryWrites = false;
+            var client = new MongoClient(mongoSettings);
             var database = client.GetDatabase(settings.DatabaseName);
 
             _stocks = database.GetCollection<Stock>(this.CollectionName);
