@@ -6,5 +6,9 @@ RUN dotnet publish -c release -o /app
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.0
 WORKDIR /app
 COPY --from=build /app .
-ENTRYPOINT ["dotnet", "StocksBackendServer.dll"]
-EXPOSE 4000
+#ENTRYPOINT ["dotnet", "StocksBackendServer.dll"]
+#EXPOSE 4000
+
+# heroku uses the following
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet StocksBackendServer.dll
+EXPOSE $PORT
