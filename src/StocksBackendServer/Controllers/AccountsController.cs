@@ -14,21 +14,19 @@ namespace StocksBackend.Controllers
     [Route("api/funds")]
     [ApiController]
     [Authorize]
-    public class AccountController : ControllerBase
+    public class AccountsController : ControllerBase
     {
         private ILoggerManager _logger;
-        private IStocksManager _quotes;
         private IRepositoryWrapper _repository;
 
-        public AccountController(ILoggerManager logger, IRepositoryWrapper repository, IStocksManager quotes)
+        public AccountsController(ILoggerManager logger, IRepositoryWrapper repository)
         {
             _logger = logger;
             _repository = repository;
-            _quotes = quotes;
         }
 
         [HttpGet("viewFunds/{id}")]
-        public async Task<IActionResult> ViewFunds(string id)
+        public IActionResult ViewFunds(string id)
         {
             try
             {
@@ -49,7 +47,7 @@ namespace StocksBackend.Controllers
         }
 
         [HttpPut("deposit/{id}")]
-        public async Task<IActionResult> DepositFunds(string id, [FromBody]Account account)
+        public IActionResult DepositFunds(string id, [FromBody] Account account)
         {
             try
             {
@@ -93,7 +91,7 @@ namespace StocksBackend.Controllers
         }
 
         [HttpPut("withdraw/{id}")]
-        public async Task<IActionResult> WithdrawFunds(string id, [FromBody]Account account)
+        public IActionResult WithdrawFunds(string id, [FromBody] Account account)
         {
             try
             {

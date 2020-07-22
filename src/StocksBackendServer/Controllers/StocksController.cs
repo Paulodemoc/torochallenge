@@ -28,8 +28,9 @@ namespace StocksBackend.Controllers
             _quotes = quotes;
         }
 
+        [AllowAnonymous]
         [HttpGet("quotes")]
-        public async Task<IActionResult> ListQuotes()
+        public IActionResult ListQuotes()
         {
             if (_quotes.stocksValues.Count == 0)
                 return NoContent();
@@ -38,7 +39,7 @@ namespace StocksBackend.Controllers
         }
 
         [HttpGet("investments/{id}")]
-        public async Task<IActionResult> ListInvestments(string id)
+        public IActionResult ListInvestments(string id)
         {
             try
             {
@@ -59,7 +60,7 @@ namespace StocksBackend.Controllers
         }
 
         [HttpPut("buy/{id}")]
-        public async Task<IActionResult> BuyStocks(string id, [FromBody]Stock stocks)
+        public IActionResult BuyStocks(string id, [FromBody] Stock stocks)
         {
             try
             {
@@ -132,7 +133,7 @@ namespace StocksBackend.Controllers
         }
 
         [HttpPut("sell/{id}")]
-        public async Task<IActionResult> SellStocks(string id, [FromBody]Stock stocks)
+        public IActionResult SellStocks(string id, [FromBody] Stock stocks)
         {
             try
             {

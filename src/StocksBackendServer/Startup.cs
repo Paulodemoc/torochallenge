@@ -45,6 +45,8 @@ namespace StocksBackend
             services.ConfigureRepositoryWrapper();
             services.AddAutoMapper(typeof(Startup));
 
+            services.AddSwaggerGen();
+
             services.AddControllers().AddNewtonsoftJson(options => options.UseMemberCasing());
 
             // configure strongly typed settings objects
@@ -89,6 +91,13 @@ namespace StocksBackend
             app.UseStaticFiles();
 
             app.UseCors("CorsPolicy");
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Stocks Api");
+            });
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {

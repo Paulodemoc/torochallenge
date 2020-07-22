@@ -17,15 +17,13 @@ namespace StocksBackendServer.Controllers
     {
         private IUserService _userService;
         private ILoggerManager _logger;
-        private IStocksManager _quotes;
         private IRepositoryWrapper _repository;
 
-        public UsersController(IUserService userService, ILoggerManager logger, IRepositoryWrapper repository, IStocksManager quotes)
+        public UsersController(IUserService userService, ILoggerManager logger, IRepositoryWrapper repository)
         {
             _userService = userService;
             _logger = logger;
             _repository = repository;
-            _quotes = quotes;
         }
 
         [AllowAnonymous]

@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities;
+using System;
 using System.Threading.Tasks;
 
 namespace Repository
@@ -53,6 +54,13 @@ namespace Repository
         public RepositoryWrapper(IDatabaseManager dbmanager)
         {
             _dbmanager = dbmanager;
+        }
+
+        public RepositoryWrapper(IAccountRepository account, IUserRepository user, IStockRepository stock)
+        {
+            _account = account ?? throw new ArgumentNullException(nameof(account));
+            _user = user ?? throw new ArgumentNullException(nameof(user));
+            _stock = stock ?? throw new ArgumentNullException(nameof(stock));
         }
     }
 }
